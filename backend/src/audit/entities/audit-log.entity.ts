@@ -29,13 +29,19 @@ export class AuditLog {
   @Column({ name: 'entity_type' })
   entityType: string;
 
-  @Column({ name: 'entity_id', nullable: true })
+  // Explicit `type: 'uuid'` (rather than relying on TypeORM's TS-type
+  // inference) because reflect-metadata can't determine a real column type
+  // from a `string | null` union — it falls back to "Object", which
+  // Postgres rejects outright at DataSource init.
+  @Column({ name: 'entity_id', type: 'uuid', nullable: true })
   entityId: string | null;
 
   @Column({ type: 'jsonb', nullable: true })
   metadata: Record<string, unknown> | null;
 
-  @Column({ name: 'ip_address', nullable: true })
+  // Same reasoning as entityId above: explicit type needed for a nullable
+  // plain-string column.
+  @Column({ name: 'ip_address', type: 'varchar', nullable: true })
   ipAddress: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
