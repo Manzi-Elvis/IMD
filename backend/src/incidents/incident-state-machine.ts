@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { IncidentStatus } from '../enums/incident.enum';
+import { IncidentStatus } from '../common/enums/incident.enum';
 
 /**
  * The incident lifecycle modeled as an explicit state machine.
